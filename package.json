@@ -2,10 +2,10 @@
   "name": "scallybot",
   "version": "1.0.0",
   "description": "Discord Bot for Scallywag",
-  "main": "bin/index.mjs",
+  "main": "bin/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node bin/index.mjs"
+    "start": "node bin/index.js"
   },
   "type": "commonjs",
   "dependencies": {
