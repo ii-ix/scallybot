@@ -2,7 +2,9 @@ require("dotenv").config();
 const {readdir} = require("fs");
 const {PREFIX} = require("../meta/config.json");
 const {Collection, Client} = require("discord.js");
-const client = new Client();
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds],
+  });
 client.commands = new Collection();
 client.queue = new Map()
 
