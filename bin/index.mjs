@@ -1,14 +1,12 @@
-import * as dotenv from "dotenv";
-import config from "../meta/config.js";
-import {readdir} from "fs";
-import {Collection, Client} from "discord.js"
-const {PREFIX} = config;
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import dotenv from "dotenv";
+import config from "../meta/config.json";
+import { readdir } from "fs";
+import { Collection, Client } from "discord.js"
+const { PREFIX } = config;
 
 // Iterates through a directory and loads in all files
-async function loader(feature, client) {
-    const rootDir = `./src/${feature}`;
+async function loader(module, client) {
+    const rootDir = `./src/${module}`;
     const types = ["commands", "events"]
     for await (const type of types) {
         const dir = `${rootDir}/${type}`
@@ -16,7 +14,7 @@ async function loader(feature, client) {
             if (err) console.error(err.message)
             else for await (const file of files) {
                 console.log(`Eval ${file}`)
-                if (!file.endsWith('js')) return
+                let event
                 switch (type) {
                     case "commands":
                         const command = await import(`../${dir}/${file}`);
@@ -25,10 +23,8 @@ async function loader(feature, client) {
                         console.log(`Loading Command: ${commandName}`)
                         break;
                     case "events":
-                        let event
                         try {
-                            if (file.endsWith(".mjs")) event = await import(`../${dir}/${file}`);
-                            else event = require(`../${dir}/${file}`) //Issue starts here...
+                            event = await import(`../${dir}/${file}`);
                             let eventName = file.split(".")[0];
                             client.on(eventName, await event(null, client));
                             console.log(`Loading Event: ${eventName}`)
@@ -51,7 +47,7 @@ async function loader(feature, client) {
     const client = await new Client();
     client.queue = await new Map()
     client.commands = await new Collection();
-    client.config = {prefix: PREFIX || process.env.PREFIX}
+    client.config = { prefix: PREFIX || process.env.PREFIX }
     await loader("music", client);
     //Logging in to discord
     await client.login(process.env.DISCORD_TOKEN)
