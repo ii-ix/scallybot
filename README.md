@@ -1,10 +1,13 @@
 # scallybot
-A Discord bot that plays music and generates memes.
+
+A Discord bot that plays music, posts gifs, and generates memes.
 
 ## Usage
 
-### .env 
-Environment variable file. Use the following variables and their assigned values: 
+### .env
+
+Environment variable file. Use the following variables and their assigned values:
+
 ```
 DISCORD_TOKEN='TOKEN-VALUE'
 SPOTIFY_CLIENT_ID='ID-VALUE'
