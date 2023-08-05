@@ -38,7 +38,7 @@
 // };
 import { EventEmitter } from 'events';
 
-export default async (client, message) => {
+const eventHandler = (client, message) => {
     const prefixMention = new RegExp(`^<@!?${client.user.id}> `);
     const prefix = message.content.match(prefixMention) ? message.content.match(prefixMention)[0] : client.config.prefix;
     if (message.content.indexOf(prefix) === 0) {
@@ -62,7 +62,6 @@ export default async (client, message) => {
         
         EventEmitter.defaultMaxListeners = 25
 
-
         //Executing the codes when we get the command or aliases
         if (cmd) {
             cmd.run(client, message, args);
@@ -71,3 +70,5 @@ export default async (client, message) => {
         }
     }
 }
+
+export default eventHandler;
