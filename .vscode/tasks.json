@@ -34,6 +34,13 @@
 			"node": {
 				"enableDebugging": true
 			}
+		},
+		{
+			"type": "npm",
+			"script": "start",
+			"problemMatcher": [],
+			"label": "npm: start",
+			"detail": "node bin/index.mjs"
 		}
 	]
 }
