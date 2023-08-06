@@ -1,33 +1,43 @@
 import dotenv from "dotenv";
 import config from "../meta/config.json" assert { type: "json" };
 import { readdir } from "fs";
-import Discord from "discord.js";
-const { Collection, Client, Events, GatewayIntentBits } = Discord
+import { Collection, Client, Events, GatewayIntentBits } from "discord.js"
 const { PREFIX } = config;
-//  
-                    switch (type) {
-                        case "commands":
-                            const { default: eventHandler } = await import(`../${dir}/${file}`);
-                            let commandName = file.split(".")[0];
-                            client.commands.set(commandName, eventHandler);
-                            console.log(`Loading Command: ${commandName}`);
-                            break;
-                        case "events":
-                            try {
-                                const { default: eventHandler } = await import(`../${dir}/${file}`);
-                                let eventName = file.split(".")[0];
-                                client.on(eventName, eventHandler(client));
-                                console.log(`Loading Event: ${eventName}`);
-                            } catch (err) {
-                                console.error(`Error: ${file}\n ${err.message}`);
-                                throw err;
-                            }
-                            break;
-                        default:
-                            console.log(`Default...`);
-                            break;
-                    }
+
+// Iterates through a directory and loads in all files
+async function loader(module, client) {
+    const rootDir = `./src/${module}`;
+    const types = ["commands", "events"]
+    for (const type of types) {
+        const dir = `${rootDir}/${type}`
+        readdir(dir, async (err, files) => {
+            if (err) console.error(err.message);
+            else for (const file of files) {
+                console.log(`Eval ${file}`);
+                let event;
+                switch (type) {
+                    case "commands":
+                        const command = await import(`../${dir}/${file}`);
+                        let commandName = file.split(".")[0];
+                        client.commands.set(commandName, command);
+                        console.log(`Loading Command: ${commandName}`);
+                        break;
+                    case "events":
+                        try {
+                            event = await import(`../${dir}/${file}`);
+                            let eventName = file.split(".")[0];
+                            client.on(eventName, () => event(client, "test"));
+                            console.log(`Loading Event: ${eventName}`);
+                        } catch (err) {
+                            console.error(`Error: ${file}\n ${err.message}`);
+                            throw err;
+                        }
+                        break;
+                    default:
+                        console.log(`Default...`);
+                        break;
                 }
+            }
         })
     }
 }
@@ -44,5 +54,4 @@ const { PREFIX } = config;
     client.commands = new Collection();
     client.config = { prefix: PREFIX || process.env.PREFIX }
     await loader("music", client);
-    //Logging in to discord
 })()
