@@ -1,57 +1,28 @@
+import { join } from "path";
+import { readdirSync } from "fs";
+import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 import config from "../meta/config.json" assert { type: "json" };
-import { readdir } from "fs";
-import { Collection, Client, Events, GatewayIntentBits } from "discord.js"
-const { PREFIX } = config;
-
-// Iterates through a directory and loads in all files
-async function loader(module, client) {
-    const rootDir = `./src/${module}`;
-    const types = ["commands", "events"]
-    for (const type of types) {
-        const dir = `${rootDir}/${type}`
-        readdir(dir, async (err, files) => {
-            if (err) console.error(err.message);
-            else for (const file of files) {
-                console.log(`Eval ${file}`);
-                let event;
-                switch (type) {
-                    case "commands":
-                        const command = await import(`../${dir}/${file}`);
-                        let commandName = file.split(".")[0];
-                        client.commands.set(commandName, command);
-                        console.log(`Loading Command: ${commandName}`);
-                        break;
-                    case "events":
-                        try {
-                            event = await import(`../${dir}/${file}`);
-                            let eventName = file.split(".")[0];
-                            client.on(eventName, () => event(client, "test"));
-                            console.log(`Loading Event: ${eventName}`);
-                        } catch (err) {
-                            console.error(`Error: ${file}\n ${err.message}`);
-                            throw err;
-                        }
-                        break;
-                    default:
-                        console.log(`Default...`);
-                        break;
-                }
-            }
-        })
-    }
-}
+import { getDirectoryName } from "../src/utils/getDirectoryName.mjs";
+import validateFunctionModule from "../src/utils/validateFunctionModule.mjs";
 
 (async () => {
-    dotenv.config()
-    const configuration = { intents: [GatewayIntentBits.Guilds] }
-    const client = new Client(configuration);
-    await client.login(process.env.DISCORD_BOT_TOKEN)
-    client.once(Events.ClientReady, c => {
-        console.log(`Ready! Logged in as ${c.user.tag}`);
-    });
-    client.queue = new Map()
-    client.commands = new Collection();
-    client.config = { prefix: PREFIX || process.env.PREFIX }
-    await loader("music", client);
+    const __dirname = getDirectoryName(import.meta.url);
+    const commands = [];
+    const foldersPath = join(__dirname, "../src/commands");
+    const commandFolders = readdirSync(foldersPath);
+    for (const folder of commandFolders) {
+        const commandsPath = join(foldersPath, folder);
+        const commandFiles = readdirSync(commandsPath).filter(file => file.endsWith(".mjs"));
+        for (const file of commandFiles) {
+            try {
+                const filePath = join(commandsPath, file);
+                const { default: commandModule } = await import(filePath);
+                await validateFunctionModule(commandModule, file);
+                console.log(`The module '${file}' passed.`);
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+    }
 })()
