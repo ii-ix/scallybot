@@ -3,8 +3,8 @@ import { readdirSync } from "fs";
 import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
 import config from "../meta/config.json" assert { type: "json" };
-import { getDirectoryName } from "../src/utils/getDirectoryName.mjs";
-import validateFunctionModule from "../src/utils/validateFunctionModule.mjs";
+import { getDirectoryName } from "./helpers/getDirectoryName.mjs";
+import validateFunctionModule from "./helpers/validateFunctionModule.mjs";
 
 dotenv.config()
 const __dirname = getDirectoryName(import.meta.url);
