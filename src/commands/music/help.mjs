@@ -1,13 +1,15 @@
-import { EmbedBuilder } from "discord.js"
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js"
 import config from "../../../meta/config.json" assert { type: "json" };
 
 export default {
-    data: {
-        name: "help",
-        description: "To show all commands",
-        usage: "[command]",
-        aliases: ["commands", "help me", "pls help"]
-    },
+    // data: {
+    //     name: "help",
+    //     description: "To show all commands",
+    //     usage: "[command]",
+    //     aliases: ["commands", "help me", "pls help"]
+    // },
+    data: new SlashCommandBuilder()
+        .add
     execute: async function (client, message, args) {
         const { prefix } = config
         let allCmds = "";
