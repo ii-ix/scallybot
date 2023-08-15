@@ -1,7 +1,6 @@
 import { validateFunctionModule } from "./validation-helpers.mjs";
 
 export async function loadCommandOrEvent(client, file, type) {
-  const commands = []
   try {
     const { default: module } = await import(file);
     const isValidModule = await validateFunctionModule(module, file);
