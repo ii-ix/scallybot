@@ -8,8 +8,6 @@ import { loadCommandOrEvent } from "./helpers/loader-helpers.mjs";
     client.commands = new Collection();
     const folders = ["commands", "events"]
     for (const folder of folders) await loadCommandOrEvent(client, folder)
-    client.once(Events.ClientReady, () => {
-        console.log('Ready!');
-    });
+    client.once(Events.ClientReady, () => console.log('Ready!'));
     client.login(process.env.DISCORD_BOT_TOKEN);
 })()
