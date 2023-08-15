@@ -25,7 +25,6 @@ export async function loadCommandOrEvent(client, folderName) {
   if (config.updateCommand) {
     const { clientId, guildId } = config
     const token = process.env.DISCORD_BOT_TOKEN
-    await deployCommands(clientId, guildId, token, commands) 
+    await deployCommands(clientId, guildId, token, commands)
   }
-
 }
