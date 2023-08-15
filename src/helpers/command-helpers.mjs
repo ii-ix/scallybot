@@ -1,10 +1,8 @@
-import dotenv from "dotenv";
 import { REST, Routes } from "discord.js";
 
-export async function deployCommands(clientId, guildId, commands) {
-    dotenv.config()
+export async function deployCommands(clientId, guildId, token, commands) {
     // Construct and prepare an instance of the REST module
-    const rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN);
+    const rest = new REST().setToken(token);
 
     // and deploy your commands!
     (async () => {

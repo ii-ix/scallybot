@@ -1,6 +1,5 @@
 import { readdirSync } from "fs";
 import { join } from "path";
-import { REST, Routes } from "discord.js";
 import { getDirectoryName } from "./directory-helpers.mjs";
 import { validateFunctionModule } from "./validation-helpers.mjs";
 import { deployCommands } from "./command-helpers.mjs"
@@ -23,5 +22,10 @@ export async function loadCommandOrEvent(client, folderName) {
       console.error(error.message);
     }
   }
-  if (config.updateCommand) await deployCommands(config.clientId, guildId, commands)
+  if (config.updateCommand) {
+    const { clientId, guildId } = config
+    const token = process.env.DISCORD_BOT_TOKEN
+    await deployCommands(clientId, guildId, token, commands) 
+  }
+
 }
