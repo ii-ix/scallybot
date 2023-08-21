@@ -1,13 +1,11 @@
-import { Client, Partials, Collection, GatewayIntentBits } from "discord.js";
+import { ActivityType, Client, Partials, Collection, GatewayIntentBits } from "discord.js";
 import config from "../../config/config.json" assert { type: "json" };
 const commands = require("../handlers/commands");
 const events = require("../handlers/events");
 const deploy = require("../handlers/deploy");
 const mongoose = require("../handlers/mongoose");
 const components = require("../handlers/components");
-const { ActivityType } = require("discord.js");
-
-module.exports = class extends Client {
+export default class extends Client {
     collection = {
         interactioncommands: new Collection(),
         prefixcommands: new Collection(),
@@ -40,7 +38,7 @@ module.exports = class extends Client {
         components(this);
         if (config.handler.mongodb.toggle) mongoose();
 
-        await this.login(process.env.CLIENT_TOKEN || config.client.token);
+        await this.login(process.env.DISCORD_BOT_TOKEN || config.client.token);
 
         if (config.handler.deploy) deploy(this, config);
     };
