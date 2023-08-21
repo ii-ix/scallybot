@@ -21,48 +21,55 @@ export function getModuleFilesRecursively(directory, extension = '.mjs') {
     return files;
 };
 
-async function _loadCommandOrEvent(client, file, type) {
+/**
+ * Loads and registers a command or event module.
+ * @param {Client} client The Discord client
+ * @param {string} file The file path of the module
+ * @param {string} type The type ("commands" or "events")
+ * @returns {object|null} The data of the loaded module or null if invalid
+ */
+export async function loadCommandOrEvent(client, file, type) {
     try {
-      const { default: module } = await import(file);
-      const isValidModule = await _validateFunctionModule(module, file);
-      if (isValidModule) {
-        client[type].set(module.data.name, module);
-        return module.data
-      }
-      return {}
+        const { default: module } = await import(file);
+        const isValidModule = await _validateFunctionModule(module, file);
+
+        if (isValidModule) {
+            const { data } = module
+            client[type].set(data.name, module);
+
+            const aliases = data.aliases ?? [];
+            aliases.forEach((alias) => {
+                client.collection.aliases.set(alias, data.name);
+            });
+            return data; // Return valid module data
+        }
+
+        return null; // Return null for invalid module
     } catch (error) {
-      console.error(error.message);
+        console.error(`Error loading ${type.slice(0, -1)} module from ${file}:`, error.message);
+        throw error; // Re-throw the error for further handling
     }
-  };
+}
 
 /**
- * 
- * @param {string} string 
- * @param {'info' | 'err' | 'warn' | 'done' | undefined} style 
+ * Logs a message with a specified style.
+ *
+ * @param {string} string - The message to be logged.
+ * @param {string} style - The style of the log message.
+ *   Can be one of: 'info', 'err', 'warn', 'done'.
  */
 export const log = (string, style) => {
-    switch (style) {
-        case 'info': {
-            console.log(chalk.blue('[INFO] ' + string));
-            break;
-        };
-        case 'err': {
-            console.error(chalk.red('[ERROR] ' + string));
-            break;
-        };
-        case 'warn': {
-            console.warn(chalk.yellow('[WARNING] ' + string));
-            break;
-        };
-        case 'done': {
-            console.log(chalk.green('[SUCCESS] ' + string));
-            break;
-        };
-        default: {
-            console.log(string);
-            break;
-        };
+    const logStyles = {
+        info: { log: chalk.blue, label: '[INFO]' },
+        err: { log: chalk.red, label: '[ERROR]' },
+        warn: { log: chalk.yellow, label: '[WARNING]' },
+        done: { log: chalk.green, label: '[SUCCESS]' },
     };
+
+    const selectedStyle = logStyles[style] || { log: console.log, label: '' };
+
+    // Log the message using the selected style.
+    selectedStyle.log(`${selectedStyle.label} ${string}`);
 };
 
 /**
@@ -75,7 +82,14 @@ export const time = (time, style) => {
     return `<t:${Math.floor(time / 1000)}${style ? `:${style}` : ''}>`;
 };
 
-export async function _validateFunctionModule(moduleToValidate) {
+/**
+ * Validates a function module to ensure it has required properties.
+ *
+ * @param {Object} moduleToValidate - The module to be validated.
+ * @returns {boolean} - Whether the module is valid (has required properties).
+ * @throws {Error} - If the module is not an object or has missing required properties.
+ */
+async function _validateFunctionModule(moduleToValidate) {
     try {
         if (typeof moduleToValidate !== 'object') {
             throw new Error('The provided module is not an object.');
