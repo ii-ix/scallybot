@@ -4,7 +4,7 @@ import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
 import { loadCommandOrEvent } from "./helpers/loader-helpers.mjs";
 import { deployCommands } from "./helpers/command-helpers.mjs"
 import config from "../config/config.json" assert { type: "json" };
-import { getDirectoryName, readFilesRecursively } from "./helpers/directory-helpers.mjs";
+import { getDirectoryName, getModuleFilesRecursively } from "./helpers/directory-helpers.mjs";
 
 
 // (async () => {
@@ -16,7 +16,7 @@ import { getDirectoryName, readFilesRecursively } from "./helpers/directory-help
 //     for (const type of types) {
 //         const __dirname = getDirectoryName(import.meta.url);
 //         const folderPath = join(__dirname, `../src/${type}`);
-//         const files = readFilesRecursively(folderPath)
+//         const files = getModuleFilesRecursively(folderPath)
 //         for (const file of files) {
 //             const commandOrEvent = await loadCommandOrEvent(client, file, type)
 //             commandsAndEvents.push(commandOrEvent)
