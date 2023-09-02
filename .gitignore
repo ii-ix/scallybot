@@ -1,5 +1,5 @@
 *.archive
-*.bak
+*.bak*
 *.env
 .idea
 node_modules
