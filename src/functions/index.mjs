@@ -66,8 +66,7 @@ export async function loadCommandOrEvent(client, file, type) {
  * Logs a message with a specified style.
  *
  * @param {string} string - The message to be logged.
- * @param {string} style - The style of the log message.
- *   Can be one of: 'info', 'err', 'warn', 'done'.
+ * @param {'info' | 'err' | 'warn' | 'done' | undefined} style - The style of the log.
  */
 export const log = (string, style) => {
     const logStyles = {
