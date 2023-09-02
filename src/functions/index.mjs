@@ -1,13 +1,12 @@
-import { fileURLToPath } from 'url';
 import { readdirSync } from "fs";
-import { dirname, join } from 'path';
+import { join } from 'path';
 import chalk from 'chalk';
 
-export function getDirectoryName(directory) {
-    const currentModulePath = fileURLToPath(directory);
-    return dirname(currentModulePath);
-};
-
+/**
+ * Returns all module files recursively in a given directory.
+ * @param {string} directory  The directory of the module files
+ * @param {string} extension The file extension to search
+ * @returns {Array} The modules file names.
 export function getModuleFilesRecursively(directory, extension = '.mjs') {
     let files = [];
     const items = readdirSync(directory, { withFileTypes: true });
