@@ -1,10 +1,10 @@
 import { ActivityType, Client, Partials, Collection, GatewayIntentBits } from "discord.js";
 import config from "../../config/config.json" assert { type: "json" };
-const commands = require("../handlers/commands");
-const events = require("../handlers/events");
-const deploy = require("../handlers/deploy");
-const mongoose = require("../handlers/mongoose");
-const components = require("../handlers/components");
+import { commands } from "../handlers/command.mjs";
+import { events } from "../handlers/events.mjs";
+import { deploy } from "../handlers/deploy.mjs";
+import { mongoose } from "../handlers/mongoose.mjs";
+import components from "../handlers/components.mjs";
 export default class extends Client {
     collection = {
         interactioncommands: new Collection(),
