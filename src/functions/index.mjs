@@ -7,6 +7,7 @@ import chalk from 'chalk';
  * @param {string} directory  The directory of the module files
  * @param {string} extension The file extension to search
  * @returns {Array} The modules file names.
+ */
 export function getModuleFilesRecursively(directory, extension = '.mjs') {
     let files = [];
     const items = readdirSync(directory, { withFileTypes: true });
@@ -34,8 +35,19 @@ export async function loadCommandOrEvent(client, file, type) {
 
         if (isValidModule) {
             const { data } = module
-            client[type].set(data.name, module);
+            switch (type) {
+                case 'prefix':
+                    type = 'prefixcommands';
+                    await loadCommandOrEvent(client, file, type)
+                    break;
+                default:
+                    type = 'interactioncommands';
+                    // client[type].set(data.name, module);
+                    client.collection.interactioncommands.set(module.structure.name, module);
+                    client.applicationcommandsArray.push(module.structure);
+                    break;
 
+            }
             const aliases = data.aliases ?? [];
             aliases.forEach((alias) => {
                 client.collection.aliases.set(alias, data.name);
