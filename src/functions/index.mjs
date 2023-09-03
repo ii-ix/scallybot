@@ -50,7 +50,6 @@ export async function loadCommandOrEvent(client, file, type) {
                     break;
                 default:
                     type = 'interactioncommands';
-                    // client[type].set(data.name, module);
                     client.collection.interactioncommands.set(data.name, module);
                     client.applicationcommandsArray.push(module.structure);
                     break;
@@ -60,9 +59,10 @@ export async function loadCommandOrEvent(client, file, type) {
             aliases.forEach((alias) => {
                 client.collection.aliases.set(alias, data.name);
             });
+            log(`Loaded the following command(s) successfully: ${file}`, 'info');
             return data; // Return valid module data
         }
-
+        log(`Unable to load the following command(s): ${file}`, 'warn');
         return null; // Return null for invalid module
     } catch (error) {
         console.error(`Error loading '${type}' module from ${file}:`, error.message);
