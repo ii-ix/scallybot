@@ -1,22 +1,30 @@
-import { readdirSync } from "fs";
-import { join } from 'path';
+import { readdirSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join, relative } from 'path';
 import chalk from 'chalk';
 
 /**
- * Returns all module files recursively in a given directory.
- * @param {string} directory  The directory of the module files
- * @param {string} extension The file extension to search
- * @returns {Array} The modules file names.
+ * Recursively retrieves a list of module files with the specified extension in a directory.
+ *
+ * @param {string} directory - The directory path to start the search from.
+ * @param {string} [extension='.mjs'] - The file extension to filter by (e.g., '.mjs').
+ * @param {string} [currentModuleURL=import.meta.url] - The URL of the current module.
+ * @returns {string[]} An array of relative file paths to the module files found.
  */
-export function getModuleFilesRecursively(directory, extension = '.mjs') {
+export function getModuleFilesRecursively(directory, extension = '.mjs', entryPointModule = import.meta.url) {
+    const entryPointDir = dirname(fileURLToPath(entryPointModule));
     let files = [];
     const items = readdirSync(directory, { withFileTypes: true });
     items.forEach(item => {
         const fullPath = join(directory, item.name);
         if (item.isDirectory()) {
-            const nestedFiles = getModuleFilesRecursively(fullPath);
+            const nestedFiles = getModuleFilesRecursively(fullPath, extension, entryPointModule);
             files = files.concat(nestedFiles);
-        } else if (item.isFile() && item.name.endsWith(extension)) files.push(fullPath)
+        } else if (item.isFile() && item.name.endsWith(extension)) {
+            // Calculate relative path from entry point module
+            const relativePath = join('.', relative(entryPointDir, fullPath));
+            files.push(relativePath);
+        }
     });
     return files;
 };
@@ -43,7 +51,7 @@ export async function loadCommandOrEvent(client, file, type) {
                 default:
                     type = 'interactioncommands';
                     // client[type].set(data.name, module);
-                    client.collection.interactioncommands.set(module.structure.name, module);
+                    client.collection.interactioncommands.set(data.name, module);
                     client.applicationcommandsArray.push(module.structure);
                     break;
 
@@ -57,7 +65,7 @@ export async function loadCommandOrEvent(client, file, type) {
 
         return null; // Return null for invalid module
     } catch (error) {
-        console.error(`Error loading ${type.slice(0, -1)} module from ${file}:`, error.message);
+        console.error(`Error loading '${type}' module from ${file}:`, error.message);
         throw error; // Re-throw the error for further handling
     }
 }
