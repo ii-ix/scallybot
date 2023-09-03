@@ -1,10 +1,10 @@
 import { ActivityType, Client, Partials, Collection, GatewayIntentBits } from "discord.js";
 import config from "../../config/config.json" assert { type: "json" };
-import { commands } from "../handlers/command.mjs";
-import { events } from "../handlers/events.mjs";
-import { deploy } from "../handlers/deploy.mjs";
-import { mongoose } from "../handlers/mongoose.mjs";
-import components from "../handlers/components.mjs";
+import commands  from "../handlers/command.mjs";
+// import { deploy } from "../handlers/deploy.mjs";
+// import { events } from "../handlers/events.mjs";
+// import { mongoose } from "../handlers/mongoose.mjs";
+// import components from "../handlers/components.mjs";
 export default class extends Client {
     collection = {
         interactioncommands: new Collection(),
@@ -34,9 +34,9 @@ export default class extends Client {
 
     start = async () => {
         commands(this);
-        events(this);
-        components(this);
-        if (config.handler.mongodb.toggle) mongoose();
+        // events(this);
+        // components(this);
+        // if (config.handler.mongodb.toggle) mongoose();
 
         await this.login(process.env.DISCORD_BOT_TOKEN || config.client.token);
 
