@@ -45,7 +45,7 @@ export async function loadCommandOrEvent(client, file, type) {
             switch (type) {
                 case 'prefix':
                     type = 'prefixcommands';
-                    client.collection.prefixcommands.set(module.structure.name, module);
+                    client.collection.prefixcommands.set(module.data.name, module);
                     break;
                 default:
                     type = 'interactioncommands';
