@@ -5,7 +5,6 @@ import chalk from 'chalk';
 
 /**
  * Recursively retrieves a list of module files with the specified extension in a directory.
- *
  * @param {string} directory - The directory path to start the search from.
  * @param {string} [extension='.mjs'] - The file extension to filter by (e.g., '.mjs').
  * @param {string} [currentModuleURL=import.meta.url] - The URL of the current module.
@@ -39,7 +38,7 @@ export function getModuleFilesRecursively(directory, extension = '.mjs', entryPo
 export async function loadCommandOrEvent(client, file, type) {
     try {
         const { default: module } = await import(file);
-        const isValidModule = await _validateFunctionModule(module, file);
+        const isValidModule = await _validateFunctionModule(module);
 
         if (isValidModule) {
             const { data } = module
