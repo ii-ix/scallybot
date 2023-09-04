@@ -1,8 +1,7 @@
 import { ActivityType, Client, Partials, Collection, GatewayIntentBits } from "discord.js";
 import config from "../../config/config.json" assert { type: "json" };
-import initCmdsAndEvents  from "../handlers/index.mjs";
+import initCmdsAndEvents from "../handlers/index.mjs";
 import { deployAppCommands } from '../functions/index.mjs';
-// import { events } from "../handlers/events.mjs";
 // import { mongoose } from "../handlers/mongoose.mjs";
 // import components from "../handlers/components.mjs";
 export default class extends Client {
@@ -36,9 +35,7 @@ export default class extends Client {
         initCmdsAndEvents(this);
         // components(this);
         // if (config.handler.mongodb.toggle) mongoose();
-
         await this.login(process.env.DISCORD_BOT_TOKEN || config.client.token);
-
         if (config.handler.deploy) deployAppCommands(this);
     };
 };

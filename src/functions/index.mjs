@@ -19,9 +19,9 @@ export async function deployAppCommands(client) {
             body: client.applicationcommandsArray
         });
         log('Loaded all application commands successfully.', 'done')
-    } catch (err) {
+    } catch (error) {
         log('Failed to load application commands.', 'err')
-        throw err
+        throw error
     }
 }
 
@@ -65,28 +65,34 @@ export async function loadCommandOrEvent(client, file, type) {
         if (isValidModule) {
             const { data } = module
             switch (type) {
+                case 'events': //match 'event' or 'events'
+                    if (module.once) {
+                        client.once(module.event, (...args) => module.execute(client, ...args));
+                    } else {
+                        client.on(module.event, (...args) => module.execute(client, ...args));
+                    }
+                    break;
+                case 'slash':
                 case 'prefix':
                     type = 'prefixcommands';
-                    client.collection.prefixcommands.set(module.data.name, module);
-                    break;
+                    client.collection[type].set(module.data.name, module);
                 default:
-                    type = 'interactioncommands';
-                    client.collection.interactioncommands.set(data.name, module);
-                    client.applicationcommandsArray.push(data);
+                    const aliases = data.aliases ?? [];
+                    aliases.forEach((alias) => {
+                        client.collection.aliases.set(alias, module.data.name);
+                    });
+                    // type = 'interactioncommands';
+                    // client.collection[type].set(module.data.name, module);
+                    // client.applicationcommandsArray.push(data);
                     break;
-
             }
-            const aliases = data.aliases ?? [];
-            aliases.forEach((alias) => {
-                client.collection.aliases.set(alias, data.name);
-            });
-            log(`Loaded the following command(s) successfully: ${file}`, 'info');
+            log(`Loaded the following ${type} successfully: ${file.split('/').pop()}`, 'info');
             return data; // Return valid module data
         }
         log(`Unable to load the following command(s): ${file}`, 'warn');
         return null; // Return null for invalid module
     } catch (error) {
-        console.error(`Error loading '${type}' module from ${file}:`, error.message);
+        log(`Error loading '${type}' module from ${file}: error: ${error.message}`, 'err' );
         throw error; // Re-throw the error for further handling
     }
 }
@@ -97,19 +103,17 @@ export async function loadCommandOrEvent(client, file, type) {
  * @param {string} string - The message to be logged.
  * @param {'info' | 'err' | 'warn' | 'done' | undefined} style - The style of the log.
  */
-export function log(string, style) {
-    const logStyles = {
-        info: { log: chalk.blue, label: '[INFO]' },
-        err: { log: chalk.red, label: '[ERROR]' },
-        warn: { log: chalk.yellow, label: '[WARNING]' },
-        done: { log: chalk.green, label: '[SUCCESS]' },
+export const log = (string, style) => {
+    const styles = {
+      info: { prefix: chalk.blue("[INFO]"), logFunction: console.log },
+      err: { prefix: chalk.red("[ERROR]"), logFunction: console.error },
+      warn: { prefix: chalk.yellow("[WARNING]"), logFunction: console.warn },
+      done: { prefix: chalk.green("[SUCCESS]"), logFunction: console.log },
     };
-
-    const selectedStyle = logStyles[style] || { log: console.log, label: '' };
-
-    // Log the message using the selected style.
-    selectedStyle.log(`${selectedStyle.label} ${string}`);
-};
+  
+    const selectedStyle = styles[style] || { logFunction: console.log };
+    selectedStyle.logFunction(`${selectedStyle.prefix || ""} ${string}`);
+  };
 
 /**
  * 
@@ -129,23 +133,24 @@ export function time(time, style) {
  * @throws {Error} - If the module is not an object or has missing required properties.
  */
 async function _validateFunctionModule(moduleToValidate) {
+    let requiredProperties = ['data', 'execute'];
     try {
         if (typeof moduleToValidate !== 'object') {
             throw new Error('The provided module is not an object.');
         }
 
-        const requiredProperties = ['data', 'execute'];
+        if (moduleToValidate.event) {
+            requiredProperties = ['event', 'execute']
+        }
         const missingProperties = requiredProperties.filter(prop => !moduleToValidate[prop]);
-
         if (missingProperties.length > 0) {
             const missingPropsString = missingProperties.join(', ');
             const errorText = missingProperties.length === 1 ? 'is missing the required property' : 'are missing the required properties';
             throw new Error(`The provided module '${moduleToValidate.data.name}' ${errorText}: ${missingPropsString}`);
         }
-
         return true;
     } catch (error) {
-        console.error(error.message);
+        log(`functions/index.mjs error: ${error.message}`, 'err')
         return false;
     }
 };

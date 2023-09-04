@@ -36,12 +36,12 @@ export default {
             const connection = await authorVoiceChannel.join();
             interaction.reply(`Joined ${authorVoiceChannel.name}.`);
         } catch (error) {
-            console.error(error.message);
+            log(`join.mjs error: ${error.message}`, 'err')
             interaction.reply(`An error occurred: ${error.message}`);
         }
     },
     async tempExecute(interaction) {
-        const { member, guild } = interaction;
+        const { member } = interaction;
 
         new EmbedBuilder({
             author: member.author,
