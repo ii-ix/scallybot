@@ -1,6 +1,6 @@
 import { Message, EmbedBuilder } from 'discord.js';
-import { ExtendedClient } from '../../../class/ExtendedClient.mjs';
-import config from '../../config/config.json' assert { type: 'json' };
+import ExtendedClient from '../../../class/ExtendedClient.mjs';
+import config from '../../../../config/config.json' assert { type: 'json' };
 // const GuildSchema = require('../../../schemas/GuildSchema');
 
 export default {
