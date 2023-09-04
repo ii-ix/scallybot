@@ -117,8 +117,8 @@ async function _validateFunctionModule(moduleToValidate) {
 
         if (missingProperties.length > 0) {
             const missingPropsString = missingProperties.join(', ');
-            const errorText = missingProperties.length === 1 ? 'property is missing' : 'properties are missing';
-            throw new Error(`The provided module is missing the required ${errorText}: ${missingPropsString}`);
+            const errorText = missingProperties.length === 1 ? 'is missing the required property' : 'are missing the required properties';
+            throw new Error(`The provided module '${moduleToValidate.data.name}' ${errorText}: ${missingPropsString}`);
         }
 
         return true;
