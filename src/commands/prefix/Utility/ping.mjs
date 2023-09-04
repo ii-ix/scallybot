@@ -9,7 +9,13 @@ export default {
         permissions: 'Administrator',
         cooldown: 5000
     },
-    async run (client, message, args) {
+    /**
+     * 
+     * @param {ExtendedClient} client 
+     * @param {*} message 
+     * @param {*} args 
+     */
+    async execute (client, message, args) {
         await message.reply({
             content: `Pong! ${client.ws.ping}`
         })
