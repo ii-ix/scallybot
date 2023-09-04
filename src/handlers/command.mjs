@@ -1,6 +1,5 @@
-import { log } from '../functions/index.mjs';
 import ExtendedClient from '../class/ExtendedClient.mjs';
-import { getModuleFilesRecursively, loadCommandOrEvent } from '../functions/index.mjs';
+import { getModuleFilesRecursively, loadCommandOrEvent, log } from '../functions/index.mjs';
 
 /**
  * 
