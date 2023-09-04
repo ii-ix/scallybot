@@ -45,12 +45,12 @@ export async function loadCommandOrEvent(client, file, type) {
             switch (type) {
                 case 'prefix':
                     type = 'prefixcommands';
-                    await loadCommandOrEvent(client, file, type)
+                    client.collection.prefixcommands.set(module.structure.name, module);
                     break;
                 default:
                     type = 'interactioncommands';
                     client.collection.interactioncommands.set(data.name, module);
-                    client.applicationcommandsArray.push(module.structure);
+                    client.applicationcommandsArray.push(data);
                     break;
 
             }
