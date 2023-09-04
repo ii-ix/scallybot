@@ -1,7 +1,7 @@
 import { ActivityType, Client, Partials, Collection, GatewayIntentBits } from "discord.js";
 import config from "../../config/config.json" assert { type: "json" };
 import commands  from "../handlers/command.mjs";
-// import { deploy } from "../handlers/deploy.mjs";
+import { deployAppCommands } from '../functions/index.mjs';
 // import { events } from "../handlers/events.mjs";
 // import { mongoose } from "../handlers/mongoose.mjs";
 // import components from "../handlers/components.mjs";
@@ -24,9 +24,9 @@ export default class extends Client {
             partials: [Object.keys(Partials)],
             presence: {
                 activities: [{
-                    name: 'something goes here',
+                    name: 'Name goes here...',
                     type: ActivityType.Custom,
-                    state: 'DiscordJS-V14-Bot-Template v2'
+                    state: 'Ready to d0xx!'
                 }]
             }
         });
@@ -40,6 +40,6 @@ export default class extends Client {
 
         await this.login(process.env.DISCORD_BOT_TOKEN || config.client.token);
 
-        if (config.handler.deploy) deploy(this, config);
+        if (config.handler.deploy) deployAppCommands(this);
     };
 };
