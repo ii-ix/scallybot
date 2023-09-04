@@ -103,7 +103,7 @@ export async function loadCommandOrEvent(client, file, type) {
  * @param {string} string - The message to be logged.
  * @param {'info' | 'err' | 'warn' | 'done' | undefined} style - The style of the log.
  */
-export const log = (string, style) => {
+export function log(string, style) {
     const styles = {
       info: { prefix: chalk.blue("[INFO]"), logFunction: console.log },
       err: { prefix: chalk.red("[ERROR]"), logFunction: console.error },
