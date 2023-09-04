@@ -75,7 +75,7 @@ export async function loadCommandOrEvent(client, file, type) {
  * @param {string} string - The message to be logged.
  * @param {'info' | 'err' | 'warn' | 'done' | undefined} style - The style of the log.
  */
-export const log = (string, style) => {
+export function log(string, style) {
     const logStyles = {
         info: { log: chalk.blue, label: '[INFO]' },
         err: { log: chalk.red, label: '[ERROR]' },
@@ -95,7 +95,7 @@ export const log = (string, style) => {
  * @param {import('discord.js').TimestampStylesString} style
  * @returns {`<t:${string}>`}
  */
-export const time = (time, style) => {
+export function time(time, style) {
     return `<t:${Math.floor(time / 1000)}${style ? `:${style}` : ''}>`;
 };
 
