@@ -4,7 +4,13 @@ import ExtendedClient from '../../class/ExtendedClient.mjs';
 export default {
     event: 'ready',
     once: true,
-    async execute(interaction) {
-        log(`Logged in as '${interaction.user.tag}'`, "done")
+    /**
+     * 
+     * @param {ExtendedClient} _ 
+     * @param {import('discord.js').Client<true>} client 
+     * @returns 
+     */
+    async execute(_, client) {
+        log(`Logged in as '${client.user.tag}'`, "done")
     }
 }
