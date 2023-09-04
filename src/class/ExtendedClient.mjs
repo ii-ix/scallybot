@@ -1,6 +1,6 @@
 import { ActivityType, Client, Partials, Collection, GatewayIntentBits } from "discord.js";
 import config from "../../config/config.json" assert { type: "json" };
-import commands  from "../handlers/command.mjs";
+import initCmdsAndEvents  from "../handlers/index.mjs";
 import { deployAppCommands } from '../functions/index.mjs';
 // import { events } from "../handlers/events.mjs";
 // import { mongoose } from "../handlers/mongoose.mjs";
@@ -33,8 +33,7 @@ export default class extends Client {
     };
 
     start = async () => {
-        commands(this);
-        // events(this);
+        initCmdsAndEvents(this);
         // components(this);
         // if (config.handler.mongodb.toggle) mongoose();
 
