@@ -60,7 +60,7 @@ export function getModuleFilesRecursively(directory, extension = '.mjs', entryPo
 export async function loadCommandOrEvent(client, file, type) {
     try {
         const { default: module } = await import(file);
-        const isValidModule = await _validateFunctionModule(module);
+        const isValidModule = await _validateDiscordModule(module);
 
         if (isValidModule) {
             const { data } = module
@@ -132,7 +132,7 @@ export function time(time, style) {
  * @returns {boolean} - Whether the module is valid (has required properties).
  * @throws {Error} - If the module is not an object or has missing required properties.
  */
-async function _validateFunctionModule(moduleToValidate) {
+async function _validateDiscordModule(moduleToValidate) {
     let requiredProperties = ['data', 'execute'];
     try {
         if (typeof moduleToValidate !== 'object') {
