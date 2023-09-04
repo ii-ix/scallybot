@@ -2,6 +2,28 @@ import { readdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join, relative } from 'path';
 import chalk from 'chalk';
+import { REST, Routes } from 'discord.js';
+import config from '../../config/config.json' assert {type: 'json'};
+import ExtendedClient from '../class/ExtendedClient.mjs';
+
+/**
+ * Deploy application commands to Discord.
+ * @param {ExtendedClient} client - The extended Discord client
+ * @returns {Promise<void>} A promise that resolves when the deployment is complete.
+ */
+export async function deployAppCommands(client) {
+    try {
+        const rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN)
+        log('Loading application commands...', 'warn')
+        await rest.put(Routes.applicationCommands(config.client.id), {
+            body: client.applicationcommandsArray
+        });
+        log('Loaded all application commands successfully.', 'done')
+    } catch (err) {
+        log('Failed to load application commands.', 'err')
+        throw err
+    }
+}
 
 /**
  * Recursively retrieves a list of module files with the specified extension in a directory.
