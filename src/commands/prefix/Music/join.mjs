@@ -43,14 +43,14 @@ export default {
     async tempExecute(interaction) {
         const { member, guild } = interaction;
 
-        let message = new EmbedBuilder({
-            author: member,
-            description: '',
-            title: '',
-            color: '',
-            footer: '',
-            url: '',
-            video: ''
+        new EmbedBuilder({
+            author: member.author,
+            description: 'This is a join confirmation description.',
+            title: 'Join Confirmation Title',
+            color: 'purple',
+            footer: 'This is a join confirmaiton footer',
+            url: 'https://www.clemans.net',
+            // video: ''
         })
     },
 }
