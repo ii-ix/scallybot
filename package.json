@@ -1,11 +1,11 @@
 {
   "name": "scallybot",
   "version": "1.0.0",
-  "description": "Discord Bot for Scallywag",
+  "description": "Discord Bot for all the scallywags out there!",
   "main": "src/index.mjs",
   "license": "MIT",
   "scripts": {
-    "start": "node src/index.mjs"
+    "start": "node ."
   },
   "jest": {
     "preset": "ts-jest",
