@@ -10,9 +10,9 @@ export default async (client) => {
 
     // Define a mapping of type to directory paths
     const typeToDir = {
-        prefix: './src/command/prefix',
-        slash: './src/command/slash',
-        events: './src/event',
+        prefix: './src/command/prefix/',
+        slash: './src/command/slash/',
+        events: './src/event/',
     };
 
     // Iterate through each type
