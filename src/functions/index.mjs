@@ -1,6 +1,6 @@
 import { readdirSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join, relative } from 'path';
+import { pathToFileURL } from 'url';
+import { join } from 'path';
 import chalk from 'chalk';
 import { REST, Routes } from 'discord.js';
 import config from '../../config/config.json' assert {type: 'json'};
@@ -29,22 +29,19 @@ export async function deployAppCommands(client) {
  * Recursively retrieves a list of module files with the specified extension in a directory.
  * @param {string} directory - The directory path to start the search from.
  * @param {string} [extension='.mjs'] - The file extension to filter by (e.g., '.mjs').
- * @param {string} [currentModuleURL=import.meta.url] - The URL of the current module.
+ * @param {string} [currentModuleURL=process.cwd()] - The URL of the current module.
  * @returns {string[]} An array of relative file paths to the module files found.
  */
-export function getModuleFilesRecursively(directory, extension = '.mjs', entryPointModule = import.meta.url) {
-    const entryPointDir = dirname(fileURLToPath(entryPointModule));
+export function getModuleFilesRecursively(directory, extension = '.mjs') {
     let files = [];
     const items = readdirSync(directory, { withFileTypes: true });
     items.forEach(item => {
         const fullPath = join(directory, item.name);
         if (item.isDirectory()) {
-            const nestedFiles = getModuleFilesRecursively(fullPath, extension, entryPointModule);
+            const nestedFiles = getModuleFilesRecursively(fullPath, extension);
             files = files.concat(nestedFiles);
         } else if (item.isFile() && item.name.endsWith(extension)) {
-            // Calculate relative path from entry point module
-            const relativePath = join('.', relative(entryPointDir, fullPath));
-            files.push(relativePath);
+            files.push(fullPath);
         }
     });
     return files;
@@ -59,13 +56,14 @@ export function getModuleFilesRecursively(directory, extension = '.mjs', entryPo
  */
 export async function loadCommandOrEvent(client, file, type) {
     try {
-        const { default: module } = await import(file);
-        const isValidModule = await _validateDiscordModule(module);
+        let data;
+        const moduleFile = pathToFileURL(file)
+        const { default: module } = await import(moduleFile);
+        const isValidModule = _validateDiscordModule(module);
 
         if (isValidModule) {
-            const { data } = module
             switch (type) {
-                case 'events': //match 'event' or 'events'
+                case 'events':
                     if (module.once) {
                         client.once(module.event, (...args) => module.execute(client, ...args));
                     } else {
@@ -77,10 +75,10 @@ export async function loadCommandOrEvent(client, file, type) {
                     type = 'prefixcommands';
                     client.collection[type].set(module.data.name, module);
                 default:
-                    const aliases = data.aliases ?? [];
-                    aliases.forEach((alias) => {
-                        client.collection.aliases.set(alias, module.data.name);
-                    });
+                    // const aliases = module.data.aliases ?? [];
+                    // aliases.forEach((alias) => {
+                    //     client.collection.aliases.set(alias, module.data.name);
+                    // });
                     // type = 'interactioncommands';
                     // client.collection[type].set(module.data.name, module);
                     // client.applicationcommandsArray.push(data);
@@ -132,7 +130,7 @@ export function time(time, style) {
  * @returns {boolean} - Whether the module is valid (has required properties).
  * @throws {Error} - If the module is not an object or has missing required properties.
  */
-async function _validateDiscordModule(moduleToValidate) {
+function _validateDiscordModule(moduleToValidate) {
     let requiredProperties = ['data', 'execute'];
     try {
         if (typeof moduleToValidate !== 'object') {
