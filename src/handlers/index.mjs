@@ -18,6 +18,8 @@ export default async (client) => {
     // Iterate through each type
     for (const type of types) {
         try {
+            const __dirname = url.fileURLToPath(import.meta.url);
+            const directory = url.fileURLToPath(typeToDir[type], __dirname);
             const files = getModuleFilesRecursively(directory);
             // Load commands or events based on the type
             files.forEach((file) => loadCommandOrEvent(client, file, type));
