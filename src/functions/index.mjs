@@ -3,7 +3,7 @@ import { pathToFileURL } from 'url';
 import { join } from 'path';
 import chalk from 'chalk';
 import { REST, Routes } from 'discord.js';
-import config from '../../config/config.json' assert {type: 'json'};
+import config from '../../config/config.json' assert { type: 'json' };
 import ExtendedClient from '../class/ExtendedClient.mjs';
 
 /**
@@ -90,7 +90,7 @@ export async function loadCommandOrEvent(client, file, type) {
         log(`Unable to load the following command(s): ${file}`, 'warn');
         return null; // Return null for invalid module
     } catch (error) {
-        log(`Error loading '${type}' module from ${file}: error: ${error.message}`, 'err' );
+        log(`Error loading '${type}' module from ${file}: error: ${error.message}`, 'err');
         throw error; // Re-throw the error for further handling
     }
 }
@@ -103,15 +103,15 @@ export async function loadCommandOrEvent(client, file, type) {
  */
 export function log(string, style) {
     const styles = {
-      info: { prefix: chalk.blue("[INFO]"), logFunction: console.log },
-      err: { prefix: chalk.red("[ERROR]"), logFunction: console.error },
-      warn: { prefix: chalk.yellow("[WARNING]"), logFunction: console.warn },
-      done: { prefix: chalk.green("[SUCCESS]"), logFunction: console.log },
+        info: { prefix: chalk.blue("[INFO]"), logFunction: console.log },
+        err: { prefix: chalk.red("[ERROR]"), logFunction: console.error },
+        warn: { prefix: chalk.yellow("[WARNING]"), logFunction: console.warn },
+        done: { prefix: chalk.green("[SUCCESS]"), logFunction: console.log },
     };
-  
+
     const selectedStyle = styles[style] || { logFunction: console.log };
     selectedStyle.logFunction(`${selectedStyle.prefix || ""} ${string}`);
-  };
+};
 
 /**
  * 
