@@ -23,7 +23,7 @@ export default {
 
 function _logDiscordMessageContent(data) {
     const { author, channel, content, server, time } = data;
-    const logName = `${time.replaceAll(':','')}_discord.log`
+    const logName = `${time.split('T')[0]}_discord.log`
     const logFilePath = `D:/Logs/Discord/${logName}`;
     const logEntry = `[${time}][${server}][${channel}][${author}]: ${content}\n`;
     log(logEntry, "info");
