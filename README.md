@@ -10,7 +10,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/ii-ix/scallybot">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="assets/images/logo.png" alt="Logo" width="80" height="80">
   </a>
   <h3 align="center">Scallybot</h3>
   <p align="center">
