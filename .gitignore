@@ -2,5 +2,7 @@
 *.bak*
 *.env
 *.original
+*.template
 .idea
+logs
 node_modules

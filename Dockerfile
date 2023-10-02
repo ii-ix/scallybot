@@ -1,10 +1,22 @@
-FROM node:lts-alpine
-ENV NODE_ENV=production
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "./"]
-RUN apk add --no-cache python3 make g++
-RUN npm install --production --silent --force && mv node_modules ../
-COPY . .
-RUN chown -R node /usr/src/app
-USER node
+# Use the latest Node.js Alpine Linux image as the base image
+FROM node:alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy only the necessary project files
+COPY ./config ./config/
+COPY ./src ./src/
+COPY package.json package-lock.json ./
+
+# Install project dependencies
+RUN npm install
+
+# Change permissions if needed (uncomment and adjust as necessary)
+# RUN chown -R node:node /app
+
+# Specify the user to run the application (optional)
+# USER node
+
+# Command to run the application
 CMD ["npm", "start"]
