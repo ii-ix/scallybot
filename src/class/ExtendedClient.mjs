@@ -6,8 +6,8 @@ import {
   GatewayIntentBits,
 } from 'discord.js';
 import config from '../../config/config.json' assert { type: 'json' };
-import initCmdsAndEvents from '../handlers/index.mjs';
-import { deployAppCommands } from '../functions/index.mjs';
+import initCmdsAndEvents from '../handlers/routes.mjs';
+import { deployAppCommands } from '../functions/utils.mjs';
 // import { mongoose } from "../handlers/mongoose.mjs";
 // import components from "../handlers/components.mjs";
 

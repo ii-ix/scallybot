@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { Events } from 'discord.js';
-import { log } from '../../functions/index.mjs';
+import { log } from '../../functions/utils.mjs';
 import config from '../../../config/config.json' assert { type: 'json' };
 
 export default {

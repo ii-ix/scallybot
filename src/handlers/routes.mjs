@@ -1,9 +1,9 @@
 import { join } from 'path';
-import { getModuleFilesRecursively, loadCommandOrEvent, log } from '../functions/index.mjs';
+import { getModuleFilesRecursively, loadCommandOrEvent, log } from '../functions/utils.mjs';
 
 /**
- * 
- * @param {ExtendedClient} client 
+ *
+ * @param {ExtendedClient} client
  */
 export default async (client) => {
   const types = ['prefix', 'slash', 'events'];
@@ -18,7 +18,7 @@ export default async (client) => {
   // Iterate through each type
   for (const type of types) {
     try {
-      const directory = join(process.cwd(),typeToDir[type]);
+      const directory = join(process.cwd(), typeToDir[type]);
       const files = getModuleFilesRecursively(directory);
       // Load commands or events based on the type
       files.forEach((file) => loadCommandOrEvent(client, file, type));

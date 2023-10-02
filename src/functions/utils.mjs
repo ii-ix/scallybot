@@ -165,7 +165,7 @@ function _validateDiscordModule(moduleToValidate) {
     }
     return true;
   } catch (error) {
-    log(`functions/index.mjs error: ${error.message}`, 'err');
+    log(`functions/utils.mjs error: ${error.message}`, 'err');
     return false;
   }
 }

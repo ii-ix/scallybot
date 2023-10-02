@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-import { log } from '../../functions/index.mjs';
+import { log } from '../../functions/utils.mjs';
 
 export default {
   event: Events.InteractionCreate,
