@@ -128,9 +128,10 @@ _For now, please refer to the [README.md](https://github.com/ii-ix/scallybot/blo
 
 ## Roadmap
 
-- [x] Add back to top links
-- [ ] Add Changelog
-- [ ] Add Additional Templates w/ Examples
+- [x] Add `back to top` links
+- [x] Add `CHANGELOG.md` release notes
+- [ ] Add `Music Bot` support
+- [ ] Add database support
 
 See the [open issues](https://github.com/ii-ix/scallybot/issues) for a full list of proposed features (and known issues).
 
@@ -165,9 +166,9 @@ Distributed under the MIT License. See `LICENSE.md` for more information.
 
 ## Contact
 
-Your Name - [@_scallybot](https://twitter.com/_scallybot) - ii-ix-bot@protonmail.com
-
-Project Link: [https://github.com/ii-ix/scallybot](https://github.com/ii-ix/scallybot)
+II IX (Two Nine) - [@_scallybot](https://twitter.com/_scallybot) - ii-ix-bot@protonmail.com
+ 
+Scallybot (For all ye' scallywags!) [https://github.com/ii-ix/scallybot](https://github.com/ii-ix/scallybot)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
