@@ -1,59 +1,66 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder } from 'discord.js';
+import { log } from '../../functions/index.mjs';
 
 export default {
-    data: {
-        name: 'Join',
-        aliases: ['j', 'join'],
-        description: 'Joins the Voice Channel.',
-        usage: 'Join',
-    },
-    async execute(interaction) {
-        const { member, guild } = interaction;
+  data: {
+    name: 'Join',
+    aliases: ['j', 'join'],
+    description: 'Joins the Voice Channel.',
+    usage: 'Join',
+  },
+  async execute(interaction) {
+    const { member, guild } = interaction;
 
-        try {
-            // Check if the interaction was sent in a guild (server)
-            if (!guild) throw new Error('You can only use this command in a server.');
+    try {
+      // Check if the interaction was sent in a guild (server)
+      if (!guild) throw new Error('You can only use this command in a server.');
 
-            // Check if the member and the bot have the necessary privileges
-            const authorVoiceChannel = member.voice.channel;
-            const botVoiceChannel = guild.me.voice.channel;
+      // Check if the member and the bot have the necessary privileges
+      const authorVoiceChannel = member.voice.channel;
+      const botVoiceChannel = guild.me.voice.channel;
 
-            if (!authorVoiceChannel || !botVoiceChannel) {
-                throw new Error('Both you and I must be in a voice channel to use this command.');
-            }
+      if (!authorVoiceChannel || !botVoiceChannel) {
+        throw new Error(
+          'Both you and I must be in a voice channel to use this command.'
+        );
+      }
 
-            if (authorVoiceChannel.id !== botVoiceChannel.id) {
-                throw new Error('You need to be in the same voice channel as me to use this command.');
-            }
+      if (authorVoiceChannel.id !== botVoiceChannel.id) {
+        throw new Error(
+          'You need to be in the same voice channel as me to use this command.'
+        );
+      }
 
-            // Check if the command matches one of the aliases
-            const commandName = interaction.commandName.toLowerCase();
-            if (!this.data.aliases.includes(commandName)) {
-                throw new Error(`This command is not recognized. Please use one of the following aliases: ${this.data.aliases.join(', ')}`);
-            }
+      // Check if the command matches one of the aliases
+      const commandName = interaction.commandName.toLowerCase();
+      if (!this.data.aliases.includes(commandName)) {
+        throw new Error(
+          `This command is not recognized. Please use one of the following aliases: ${this.data.aliases.join(', ')}`
+        );
+      }
 
-            // Join the author's voice channel
-            const connection = await authorVoiceChannel.join();
-            interaction.reply(`Joined ${authorVoiceChannel.name}.`);
-        } catch (error) {
-            log(`join.mjs error: ${error.message}`, 'err')
-            interaction.reply(`An error occurred: ${error.message}`);
-        }
-    },
-    async tempExecute(interaction) {
-        const { member } = interaction;
+      // Join the author's voice channel
+      await authorVoiceChannel.join();
+      interaction.reply(`Joined ${authorVoiceChannel.name}.`);
+    } catch (error) {
+      log(`join.mjs error: ${error.message}`, 'err');
+      interaction.reply(`An error occurred: ${error.message}`);
+    }
+  },
+  async tempExecute(interaction) {
+    const { member } = interaction;
 
-        new EmbedBuilder({
-            author: member.author,
-            description: 'This is a join confirmation description.',
-            title: 'Join Confirmation Title',
-            color: 'purple',
-            footer: 'This is a join confirmaiton footer',
-            url: 'https://www.clemans.net',
-            // video: ''
-        })
-    },
-}
+    new EmbedBuilder({
+      author: member.author,
+      description: 'This is a join confirmation description.',
+      title: 'Join Confirmation Title',
+      color: 'purple',
+      footer: 'This is a join confirmation footer',
+      url: 'https://me.io',
+      // video: ''
+    });
+  },
+};
 
 // run: async (client, message, args) => {
 

@@ -12,105 +12,18 @@ This project follows [Semantic Versioning (SemVer)](https://semver.org/).
 
 In addition to SemVer, we may include pre-release tags (e.g., alpha, beta) to indicate early or experimental releases. Any pre-release or build metadata will be included in the version number.
 
-
-## [Unreleased]
-
-### Added
-
-- New feature or enhancement description. [Commit Link](link_to_commit)
-- Another new feature description. [Commit Link](link_to_commit)
-
-### Fixed
-
-- Bug fix description. [Commit Link](link_to_commit)
-- Another bug fix description. [Commit Link](link_to_commit)
-
-### Security
-
-- Description of security-related changes. [Commit Link](link_to_commit)
-
-### Documentation
-
-- Documentation improvement or update. [Commit Link](link_to_commit)
-
-## [Version Number] - Release Date (YYYY-MM-DD)
+## 🏷️[1.1.0] • 2023-10-01
 
 ### Added
 
-- New feature or enhancement description. [Commit Link](link_to_commit)
-- Another new feature description. [Commit Link](link_to_commit)
+- ESLint ES6+ module linting support.
+- Added tags to version commits for `CHANGELOG.md` references.
+- Added `*.template` to `.gitignore`.
 
 ### Fixed
 
-- Bug fix description. [Commit Link](link_to_commit)
-- Another bug fix description. [Commit Link](link_to_commit)
+- Minor syntax issues.
 
-### Security
-
-- Description of security-related changes. [Commit Link](link_to_commit)
-
-### Documentation
-
-- Documentation improvement or update. [Commit Link](link_to_commit)
-
-## [Version Number] - Release Date (YYYY-MM-DD)
-
-### Added
-
-- New feature or enhancement description. [Commit Link](link_to_commit)
-- Another new feature description. [Commit Link](link_to_commit)
-
-### Fixed
-
-- Bug fix description. [Commit Link](link_to_commit)
-- Another bug fix description. [Commit Link](link_to_commit)
-
-### Security
-
-- Description of security-related changes. [Commit Link](link_to_commit)
-
-### Documentation
-
-- Documentation improvement or update. [Commit Link](link_to_commit)
-
-## [Version Number] - Release Date (YYYY-MM-DD)
-
-### Added
-
-- New feature or enhancement description. [Commit Link](link_to_commit)
-- Another new feature description. [Commit Link](link_to_commit)
-
-### Fixed
-
-- Bug fix description. [Commit Link](link_to_commit)
-- Another bug fix description. [Commit Link](link_to_commit)
-
-### Security
-
-- Description of security-related changes. [Commit Link](link_to_commit)
-
-### Documentation
-
-- Documentation improvement or update. [Commit Link](link_to_commit)
-
-## [Version Number] - Release Date (YYYY-MM-DD)
-
-### Added
-
-- New feature or enhancement description. [Commit Link](link_to_commit)
-- Another new feature description. [Commit Link](link_to_commit)
-
-### Fixed
-
-- Bug fix description. [Commit Link](link_to_commit)
-- Another bug fix description. [Commit Link](link_to_commit)
-
-### Security
-
-- Description of security-related changes. [Commit Link](link_to_commit)
-
-### Documentation
-
-- Documentation improvement or update. [Commit Link](link_to_commit)
-
-[Unreleased]: link_to_compare_diff_between_last_version_and_unreleased
+<!-- Reference Links -->
+[1.1.0]: https://github.com/ii-ix/scallybot/compare/1.0.0...1.1.0
+[1.0.0]: https://github.com/ii-ix/scallybot/tree/1.0.0

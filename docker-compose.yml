@@ -2,8 +2,12 @@ version: '3.4'
 
 services:
   scallybot:
-    image: scallybot
+    restart: always
+    container_name: scallybot
+    image: scallybot:latest
     build:
       context: .
       dockerfile: ./Dockerfile
+    volumes:
+      - ./logs:/logs/
     env_file: .env
