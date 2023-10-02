@@ -1,6 +1,6 @@
 {
   "name": "scallybot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Discord Bot for all the scallywags out there!",
   "main": "src/index.mjs",
   "license": "MIT",
