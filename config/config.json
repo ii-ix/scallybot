@@ -9,5 +9,8 @@
   "handler": {
     "deploy": true,
     "prefix": "!"
+  },
+  "logger": {
+    "filePath": "D:\\Logs\\Discord\\"
   }
 }
