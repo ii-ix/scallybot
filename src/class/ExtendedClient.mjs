@@ -1,10 +1,4 @@
-import {
-  ActivityType,
-  Client,
-  Partials,
-  Collection,
-  GatewayIntentBits,
-} from 'discord.js';
+import { ActivityType, Client, Partials, Collection, GatewayIntentBits } from 'discord.js';
 import config from '../../config/config.json' assert { type: 'json' };
 import initCmdsAndEvents from '../handlers/routes.mjs';
 import { deployAppCommands } from '../functions/utils.mjs';
