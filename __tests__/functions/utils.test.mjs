@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, jest, it, expect } from '@jest/globals';
 import chalk from 'chalk';
-import { log } from '../../src/functions/utils.mjs';
+import { getModuleFilesRecursively, log } from '../../src/functions/utils.mjs';
+import fs from 'fs';
 
 describe('log function', () => {
   let mockLog;
@@ -53,5 +54,13 @@ describe('log function', () => {
     const message = 'Unknown message';
     log(message, 'unknown');
     expect(mockLog).toHaveBeenCalledWith(message);
+  });
+});
+
+describe('getModuleFilesRecursively function', () => {
+  it('returns an empty array when the directory is empty', () => {
+    jest.spyOn(fs, 'readdirSync').mockReturnValue([]);
+    const files = getModuleFilesRecursively('/path/to/empty/directory');
+    expect(files).toEqual([]);
   });
 });

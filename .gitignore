@@ -1,9 +1,9 @@
+**/coverage/**
 *.archive
 *.bak*
 *.env
 *.original
 *.template
 .idea
-/coverage/
 logs
 node_modules

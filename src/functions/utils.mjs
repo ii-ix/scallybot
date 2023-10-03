@@ -33,17 +33,22 @@ export async function deployAppCommands(client) {
  */
 export function getModuleFilesRecursively(directory, extension = '.mjs') {
   let files = [];
-  const items = readdirSync(directory, { withFileTypes: true });
-  items.forEach((item) => {
-    const fullPath = join(directory, item.name);
-    if (item.isDirectory()) {
-      const nestedFiles = getModuleFilesRecursively(fullPath, extension);
-      files = files.concat(nestedFiles);
-    } else if (item.isFile() && item.name.endsWith(extension)) {
-      files.push(fullPath);
-    }
-  });
-  return files;
+  try {
+    const items = readdirSync(directory, { withFileTypes: true });
+    items.forEach((item) => {
+      const fullPath = join(directory, item.name);
+      if (item.isDirectory()) {
+        const nestedFiles = getModuleFilesRecursively(fullPath, extension);
+        files = files.concat(nestedFiles);
+      } else if (item.isFile() && item.name.endsWith(extension)) {
+        files.push(fullPath);
+      }
+    });
+    return files;
+  } catch (err) {
+    log(err.message, 'err');
+    return [];
+  }
 }
 
 /**

@@ -13,7 +13,7 @@ export default async () => {
     clearMocks: true,
 
     // Indicates whether the coverage information should be collected while executing the test
-    // collectCoverage: true,
+    collectCoverage: true,
 
     // An array of glob patterns indicating a set of files for which coverage information should be collected
     // collectCoverageFrom: undefined,
@@ -27,7 +27,7 @@ export default async () => {
     // ],
 
     // Indicates which provider should be used to instrument code for coverage
-    // coverageProvider: "babel",
+    coverageProvider: 'v8',
 
     // A list of reporter names that Jest uses when writing coverage reports
     // coverageReporters: [
@@ -45,8 +45,6 @@ export default async () => {
 
     // Make calling deprecated APIs throw helpful error messages
     // errorOnDeprecated: false,
-
-    extensionsToTreatAsEsm: ['.ts', '.tsx', '.jsx'],
 
     // The default configuration for fake timers
     // fakeTimers: {
@@ -69,10 +67,14 @@ export default async () => {
     // maxWorkers: "50%",
 
     // An array of directory names to be searched recursively up from the requiring module's location
-    // moduleDirectories: ['node_modules', 'src'],
+    // moduleDirectories: [
+    //   "node_modules"
+    // ],
 
     // An array of file extensions your modules use
     // moduleFileExtensions: [
+    //   "js",
+    //   "mjs",
     //   "cjs",
     //   "jsx",
     //   "ts",
@@ -139,7 +141,7 @@ export default async () => {
 
     // The test environment that will be used for testing
     // testEnvironment: "jest-environment-node",
-    testEnvironment: 'node',
+
     // Options that will be passed to the testEnvironment
     // testEnvironmentOptions: {},
 
@@ -170,7 +172,6 @@ export default async () => {
 
     // A map from regular expressions to paths to transformers
     // transform: undefined,
-    transform: {},
 
     // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
     // transformIgnorePatterns: [
@@ -182,7 +183,7 @@ export default async () => {
     // unmockedModulePathPatterns: undefined,
 
     // Indicates whether each individual test should be reported during the run
-    verbose: true,
+    // verbose: undefined,
 
     // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
     // watchPathIgnorePatterns: [],
