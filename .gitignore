@@ -4,5 +4,6 @@
 *.original
 *.template
 .idea
+/coverage/
 logs
 node_modules

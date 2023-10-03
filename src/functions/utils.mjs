@@ -120,7 +120,9 @@ export function log(string, style) {
   };
 
   const selectedStyle = styles[style] || { logFunction: console.log };
-  selectedStyle.logFunction(`${selectedStyle.prefix || ''} ${string}`);
+  selectedStyle.logFunction(
+    `${selectedStyle.prefix ? `${selectedStyle.prefix} ` : ''}${string}`
+  );
 }
 
 /**
